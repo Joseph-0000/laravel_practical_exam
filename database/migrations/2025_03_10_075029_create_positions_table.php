@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('positions', function (Blueprint $table) {
             $table->id();
             $table->string('position')->unique();
-            $table->foreignId('reports_to')->nullable()->constrained('positions')->nullOnDelete();
+            $table->foreignId('reports_to')->nullable()->constrained('positions', 'id')->nullOnDelete();
+
             $table->timestamps();
         });
     }

@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Position;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+
 
 class PositionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+   public function index(Request $request)
     {
         
         $query = Position::query();
@@ -90,9 +92,13 @@ class PositionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Position $position)
+   public function destroy(Position $position)
     {
-           $position->delete();
+        $position->childPositions()->update(['reports_to' => null]);
+
+        $position->delete();
+
         return response()->json(['message' => 'Position deleted successfully']);
     }
+
 }
